@@ -6,9 +6,10 @@ class DatabaseService {
 
   DatabaseService({this.uid});
 
-  final CollectionReference userCollection = FirebaseFirestore.instance.collection("users");
+  final CollectionReference userCollection =
+      FirebaseFirestore.instance.collection("users");
 
-  Future<void> saveUser(String name, int waterCounter) async {
+  Future<void> saveUser(String name, String waterCounter) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'waterCount': waterCounter
@@ -18,27 +19,22 @@ class DatabaseService {
   AppUserData _userFromSnapshot(DocumentSnapshot snapshot) {
     return AppUserData(
       uid: uid,
-      name: snapshot.data()['name'],
-      waterCounter: snapshot.data()['waterCount'],
+      name:snapshot.data()['name'],
+      waterCounter:snapshot.data()['waterCount'],
     );
-  }
-
-  List<AppUserData> _userListFromSnapshot(QuerySnapshot snapshot) {
-    return snapshot.docs.map((doc) {
-      return AppUserData(
-        uid: uid,
-        name: doc.data()['name'],
-        waterCounter: doc.data()['waterCount'],
-      );
-    }).toList();
-  }
-
-  Stream<List<AppUserData>> get users {
-    return userCollection.snapshots().map(_userListFromSnapshot);
   }
 
   Stream<AppUserData> get user {
     return userCollection.doc(uid).snapshots().map(_userFromSnapshot);
   }
 
+  List<AppUserData> _userListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.docs.map((doc) {
+      return _userFromSnapshot(doc);
+    });
+  }
+
+  Stream<List<AppUserData>> get users {
+    return userCollection.snapshots().map(_userListFromSnapshot);
+  }
 }

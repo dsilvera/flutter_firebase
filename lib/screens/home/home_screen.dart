@@ -12,9 +12,10 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<AppUser>(context);
+    final database = DatabaseService(uid:user.uid);
     return StreamProvider<List<AppUserData>>.value(
       initialData: [],
-      value: DatabaseService().users,
+      value: database.users,
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             title: Text('Water Social'),
             actions: <Widget>[
               StreamBuilder<AppUserData>(
-                stream: DatabaseService(uid:user.uid).user,
+                stream: database.user,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     AppUserData userData = snapshot.data;
@@ -31,7 +32,7 @@ class HomeScreen extends StatelessWidget {
                       icon: Icon(Icons.wine_bar, color: Colors.white,),
                       label: Text('drink', style:TextStyle(color:Colors.white)),
                       onPressed: () async {
-                        await DatabaseService(uid:user.uid).saveUser(userData.name, userData.waterCounter + 1);
+                        await database.saveUser(userData.name, userData.waterCounter + 1);
                       },
                     );
                   } else {
