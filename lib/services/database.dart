@@ -9,7 +9,7 @@ class DatabaseService {
   final CollectionReference userCollection =
       FirebaseFirestore.instance.collection("users");
 
-  Future<void> saveUser(String name, String waterCounter) async {
+  Future<void> saveUser(String name, int waterCounter) async {
     return await userCollection.doc(uid).set({
       'name': name,
       'waterCount': waterCounter
