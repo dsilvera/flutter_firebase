@@ -1,7 +1,7 @@
 class AppUser {
   final String uid;
 
-  AppUser({this.uid});
+  AppUser(this.uid);
 }
 
 class AppUserData {
@@ -9,5 +9,5 @@ class AppUserData {
   final String name;
   final int waterCounter;
 
-  AppUserData({this.uid, this.name, this.waterCounter});
+  AppUserData({required this.uid, required this.name, required this.waterCounter});
 }

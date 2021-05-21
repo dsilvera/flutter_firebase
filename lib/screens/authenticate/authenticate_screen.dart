@@ -29,7 +29,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
 
   void toggleView() {
     setState(() {
-      _formKey.currentState.reset();
+      _formKey.currentState?.reset();
       error = '';
       emailController.text = '';
       nameController.text = '';
@@ -70,22 +70,25 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         ? TextFormField(
                             controller: nameController,
                             decoration: textInputDecoration.copyWith(hintText: 'name'),
-                            validator: (value) => value.isEmpty ? "Enter a name" : null,
+                            validator: (value) =>
+                                value == null || value.isEmpty ? "Enter a name" : null,
                           )
                         : Container(),
                     !showSignIn ? SizedBox(height: 10.0) : Container(),
                     TextFormField(
                       controller: emailController,
                       decoration: textInputDecoration.copyWith(hintText: 'email'),
-                      validator: (value) => value.isEmpty ? "Enter an email" : null,
+                      validator: (value) =>
+                          value == null || value.isEmpty ? "Enter an email" : null,
                     ),
                     SizedBox(height: 10.0),
                     TextFormField(
                       controller: passwordController,
                       decoration: textInputDecoration.copyWith(hintText: 'password'),
                       obscureText: true,
-                      validator: (value) =>
-                          value.length < 6 ? "Enter a password with at least 6 characters" : null,
+                      validator: (value) => value != null && value.length < 6
+                          ? "Enter a password with at least 6 characters"
+                          : null,
                     ),
                     SizedBox(height: 10.0),
                     ElevatedButton(
@@ -94,7 +97,7 @@ class _AuthenticateScreenState extends State<AuthenticateScreen> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onPressed: () async {
-                        if (_formKey.currentState.validate()) {
+                        if (_formKey.currentState?.validate() == true) {
                           setState(() => loading = true);
                           var password = passwordController.value.text;
                           var email = emailController.value.text;

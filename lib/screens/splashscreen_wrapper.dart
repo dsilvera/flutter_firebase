@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class SplashScreenWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<AppUser>(context);
+    final user = Provider.of<AppUser?>(context);
     if (user == null) {
       return AuthenticateScreen();
     } else {

@@ -10,11 +10,11 @@ class UserList extends StatefulWidget {
 class _UserListState extends State<UserList> {
   @override
   Widget build(BuildContext context) {
-    final users = Provider.of<List<AppUserData>>(context) ?? [];
+    final users = Provider.of<List<AppUserData>>(context);
     return ListView.builder(
         itemCount:users.length,
         itemBuilder: (context, index) {
-          return UserTile(user:users[index]);
+          return UserTile(users[index]);
         }
     );
   }
@@ -23,7 +23,7 @@ class _UserListState extends State<UserList> {
 class UserTile extends StatelessWidget {
   final AppUserData user;
 
-  UserTile({this.user});
+  UserTile(this.user);
 
   @override
   Widget build(BuildContext context) {

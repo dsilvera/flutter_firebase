@@ -4,23 +4,22 @@ import 'package:flutter_firebase/models/user.dart';
 class DatabaseService {
   final String uid;
 
-  DatabaseService({this.uid});
+  DatabaseService(this.uid);
 
-  final CollectionReference userCollection =
+  final CollectionReference<Map<String, dynamic>> userCollection =
       FirebaseFirestore.instance.collection("users");
 
   Future<void> saveUser(String name, int waterCounter) async {
-    return await userCollection.doc(uid).set({
-      'name': name,
-      'waterCount': waterCounter
-    });
+    return await userCollection.doc(uid).set({'name': name, 'waterCount': waterCounter});
   }
 
-  AppUserData _userFromSnapshot(DocumentSnapshot snapshot) {
+  AppUserData _userFromSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    var data = snapshot.data();
+    if (data == null) throw Exception("user not found");
     return AppUserData(
       uid: uid,
-      name:snapshot.data()['name'],
-      waterCounter:snapshot.data()['waterCount'],
+      name: data['name'],
+      waterCounter: data['waterCount'],
     );
   }
 
@@ -28,10 +27,10 @@ class DatabaseService {
     return userCollection.doc(uid).snapshots().map(_userFromSnapshot);
   }
 
-  List<AppUserData> _userListFromSnapshot(QuerySnapshot snapshot) {
+  List<AppUserData> _userListFromSnapshot(QuerySnapshot<Map<String, dynamic>> snapshot) {
     return snapshot.docs.map((doc) {
       return _userFromSnapshot(doc);
-    });
+    }).toList();
   }
 
   Stream<List<AppUserData>> get users {
