@@ -17,7 +17,7 @@ class DatabaseService {
     var data = snapshot.data();
     if (data == null) throw Exception("user not found");
     return AppUserData(
-      uid: uid,
+      uid: snapshot.id,
       name: data['name'],
       waterCounter: data['waterCount'],
     );

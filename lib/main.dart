@@ -2,10 +2,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/screens/chat/chat_screen.dart';
 import 'package:flutter_firebase/screens/splashscreen_wrapper.dart';
 import 'package:flutter_firebase/services/authentication.dart';
 import 'package:provider/provider.dart';
 
+import 'models/chat_params.dart';
 import 'models/user.dart';
 
 void main() async {
@@ -26,11 +28,52 @@ class MyApp extends StatelessWidget {
       initialData: null,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreenWrapper(),
+        initialRoute: '/',
+        onGenerateRoute: (settings) => RouteGenerator.generateRoute(settings),
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
       ),
+    );
+  }
+}
+
+class RouteGenerator {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/' :
+        return MaterialPageRoute(builder: (context) => SplashScreenWrapper());
+      case '/chat':
+        var arguments = settings.arguments;
+        if (arguments != null) {
+          return PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  ChatScreen(chatParams : arguments as ChatParams),
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                animation = CurvedAnimation(curve: Curves.ease, parent: animation);
+                return FadeTransition(
+                  opacity: animation,
+                  child: child,
+                );
+              }
+          );
+        } else {
+          return pageNotFound();
+        }
+      default:
+        return pageNotFound();
+    }
+  }
+
+  static MaterialPageRoute pageNotFound() {
+    return MaterialPageRoute(
+        builder: (context) =>
+            Scaffold(
+                appBar: AppBar(title: Text("Error"), centerTitle: true),
+                body: Center(
+                  child: Text("Page not found"),
+                )
+            )
     );
   }
 }
