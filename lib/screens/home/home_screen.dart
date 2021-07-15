@@ -4,6 +4,7 @@ import 'package:flutter_firebase/models/user.dart';
 import 'package:flutter_firebase/screens/home/user_list.dart';
 import 'package:flutter_firebase/services/authentication.dart';
 import 'package:flutter_firebase/services/database.dart';
+import 'package:flutter_firebase/services/notification_service.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,6 +12,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    NotificationService.initialize();
     final user = Provider.of<AppUser?>(context);
     if (user == null) throw Exception("user not found");
     final database = DatabaseService(user.uid);

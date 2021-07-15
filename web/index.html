@@ -31,10 +31,16 @@
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
 <script>
   // Your web app's Firebase configuration
-  var firebaseConfig = {
-    // TODO add your firebase data
+   var firebaseConfig = {
+    apiKey: "AIzaSyAMergregPdufdb4kwwIp6BdtE",
+    authDomain: "fluqrgrdgase-34sgdsfg.firebrgrfgapp.com",
+    projectId: "fluttefgqdfgebase-qgfdg5",
+    storageBucket: "fluttegqdfgbase-34qgfqdfg95.apqgdfsgot.com",
+    messagingSenderId: "394qfgqrgq75230",
+    appId: "1:egqrege75230:web:fergqergqerg476605ef"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
@@ -55,6 +61,8 @@
     if ('serviceWorker' in navigator) {
       // Service workers are supported. Use them.
       window.addEventListener('load', function () {
+        //register firebase-messaging service worker
+        navigator.serviceWorker.register("/firebase-messaging-sw.js");
         // Wait for registration to finish before dropping the <script> tag.
         // Otherwise, the browser will load the script multiple times,
         // potentially different versions.
